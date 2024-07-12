@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compra </title>
+    <link rel="icon" href="Assets/favicon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">">
+    <link rel="stylesheet" href="compra.css">
+</head>
+
+<body>
+    <header>
+        <div class="container-compra">
+            <div class="Logo-pago"> <img src="Assets/Logo.png" alt="Logo"></div>
+            <nav>
+                <a href="Hombres.html">Hombres</a>
+                <a href="Mujeres.html">Mujeres</a>
+                <a href="Accesorios.html">Accesorios</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="pagos-container">
+        <section id="Pago">
+            <div class="pagos">
+                <form action="/procesar_pago" method="post">
+                    <label for="producto">Producto:</label>
+                    <input class="box1" id="producto" name="producto"><br><br>
+
+                    <label for="precio">Precio:</label>
+                    <input class="box1" id="precio" name="precio"><br><br>
+
+                    <label for="nombre">Nombre:</label>
+                    <input class="box1" id="nombre" name="nombre"><br><br>
+
+                    <label for="tarjeta">Tarjeta de Crédito:</label>
+                    <input class="box1" id="tarjeta" name="tarjeta"><br><br>
+
+                    <label for="fecha_vencimiento">Fecha de Vencimiento:</label>
+                    <input class="box1" id="fecha_vencimiento" name="fecha_vencimiento"><br><br>
+
+                    <label for="codigo_seguridad">Código de Seguridad:</label>
+                    <input class="box1" id="codigo_seguridad" name="codigo_seguridad"><br><br>
+
+                    <button type="submit">Realizar Pago</button>
+                </form>
+            </div>
+        </section>
+    </div>
+   
+
+
+
+</body>
+
+</html>

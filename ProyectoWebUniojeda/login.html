@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log in</title>
+    <link rel="icon" href="Assets/favicon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="login.css">
+</head>
+
+<body>
+    <main>
+        <div class="portada">
+            <img src="Assets/login.png" alt="chica entrenanado">
+        </div>
+
+        <div class="registro">
+            <div class="login">
+                <h2>LOG IN</h2>
+                <form action="/submit-login" method="post">
+
+
+                    <label for="username">Direccion de correo</label><br>
+                    <input type="text" id="username" name="username" class="box" placeholder="Correo electronico"><br>
+
+                    <label for="password">Contraseña</label><br>
+                    <input type="password" id="password" name="password" class="box" placeholder="Contraseña"><br>
+
+                    <input type="submit" value="Login" class="submit">
+
+                </form>
+            </div>
+
+
+            <div class="login">
+                <h2>SIGN UP</h2>
+                <form action="/submit-login" method="post">
+
+
+                    <label for="nombre">Primer nombre</label><br>
+                    <input type="text" id="pimer-nombre" name="primer-nombre" class="box" placeholder="Nombre"><br>
+
+                    <label for="Apellido">Apellido</label><br>
+                    <input type="text" id="Apellido" name="Apellido" class="box" placeholder="Apellido"><br>
+
+                    <label for="correp">Correo electronico</label><br>
+                    <input type="email" id="email" name="email" required class="box"
+                        placeholder="Correo electronico"><br>
+
+                    <label for="Contraseña">Contraseña</label><br>
+                    <input type="password" id="contraseña" name="contraseña" class="box" placeholder="Contraseña"><br>
+
+                    <label for="Terminos">
+                        <input type="checkbox" />
+                        Marque aquí para recibir correos electrónicos sobre nuestros productos, aplicaciones, ventas,
+                        contenido exclusivo y más. <a href="terminos.html">Consulte nuestra Política de privacidad.</a>
+                        <br>
+
+                    </label>
+
+                    <input type="submit" value="sign up" class="submit">
+            </div>
+
+            </form>
+        </div>
+    </main>
+</body>
+
+</html>
