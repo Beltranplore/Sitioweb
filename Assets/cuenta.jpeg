@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<!-- saved from url=(0580)https://auth.gymshark.com/login?state=hKFo2SBVS09QWkVpN0dldUt2bmJNZG1KekhyaUpGLVVVdDBjVaFupWxvZ2luo3RpZNkgWXo2eHZLTXRqZHA2UFpKTVRYYjFFRHVmdFNZLXptT2OjY2lk2SAyd2JDeUhWbTFEZElYMkV3ZEU3bTBxVkliWGpPQ1RYag&client=2wbCyHVm1DdIX2EwdE7m0qVIbXjOCTXj&protocol=oauth2&scope=openid%20profile%20email&response_type=code&redirect_uri=https%3A%2F%2Fwww.gymshark.com%2Fapi%2Fauth%2Fcallback&audience=https%3A%2F%2Fgateway.api.gymshark.com&locale=en-US&realm=us&nonce=yZ93ZFeYvobXjLLZvt6cCMcUt-1pyhHs5T8BbEWNjdw&code_challenge_method=S256&code_challenge=EdDAUrUDqUDUijohOdy5QUowuxwoMZJ_SnEkVUDRsYQ -->
+<html style="--slider-left: 0; --signup-height: 700px; --login-height: 272px;"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src &#39;none&#39;;
+            script-src &#39;self&#39; https://cdn.tailwindcss.com/ https://cdn.auth0.com/ https://config.gymshark.io
+            &#39;nonce-cUIIjYUTWMRr2TFQXHhB3qhmKyi5KkAJlWUNfW8c1Vk=&#39; &#39;nonce-V5DuPdz0/rhYyRoKSyt374B2w+RSQfy4RiUKjWsxJEo=&#39;;
+            connect-src &#39;self&#39; https://config.gymshark.io;
+            img-src &#39;self&#39; https://cdn.develop.gymshark.com https://cdn.gymshark.com;
+            style-src &#39;self&#39; https://fonts.googleapis.com https://cdn.tailwindcss.com/ &#39;unsafe-inline&#39;;
+            font-src &#39;self&#39; https://fonts.googleapis.com https://fonts.gstatic.com">
+    <title>Account | Gymshark</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com/">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+    <link rel="shortcut icon" href="https://cdn.gymshark.com/images/favicons/favicon_32x32.png" type="image/png">
+    <link href="./cuenta_files/css2" rel="stylesheet">
+    <style>
+      .container {
+        min-height: 100vh;
+        
+        @media screen and (min-width: 1024px) {
+          height: 100vh;
+          overflow-y: scroll;
+        }
+      }
+
+      #content-container {
+        @media screen and (min-width: 1024px) {
+          margin: auto;
+        }
+      }
+
+      #fields-container {
+        transition: height 700ms;
+        /* hide all fields until js loads in */
+        display: none;
+        overflow: visible;
+      }
+
+      .toggle {
+        position: relative;
+        display: inline-block;
+        height: 44px;
+        border-radius: 100px;
+        padding: 0 4px;
+        margin-bottom: 24px;
+        color: transparent;
+        font-size: 0;
+        background-color: #e7e7e7;
+
+        @media screen and (min-width: 1024px) {
+          margin-bottom: 32px;
+        }
+      }
+
+      .toggle input {
+        appearance: none;
+        -webkit-appearance: none;
+        position: absolute;
+      }
+
+      .toggle input:focus-visible {
+        ~ .slider {
+          outline: 4px auto blue;
+          outline: 4px auto -webkit-focus-ring-color;
+        }
+      }
+
+      .toggle input:active {
+        outline: none;
+      }
+
+      .slider {
+        position: absolute;
+        top: 0;
+        left: var(--slider-left);
+        height: 44px;
+        border-radius: 100px;
+        background-color: #fff;
+        z-index: 2;
+        transition: all 0.25s ease-in-out;
+        border: 4px solid #e7e7e7;
+        opacity: 0;
+      }
+
+      #toggle-label {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 44px;
+        z-index: 1;
+        cursor: pointer;
+      }
+
+      #toggle-label:hover + div {
+        .inactive-text {
+          color: #000;
+        }
+      }
+
+      .content-container--login-default {
+        #fields-container {
+          height: var(--login-height);
+          margin: 3px;
+        }
+      }
+
+      .content-container--signup-default {
+        #fields-container {
+          box-sizing: border-box;
+          padding: 3px;
+          height: var(--signup-height);
+        }
+      }
+
+      .fields-container--signup-active {
+        height: var(--signup-height) !important;
+      }
+
+      .fields-container--login-active {
+        height: var(--login-height) !important;
+      }
+
+      .text-container {
+        z-index: 3;
+        width: 100%;
+        height: 44px;
+        position: relative;
+        top: 0;
+        left: 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-grow: 0;
+        color: #000;
+        text-transform: uppercase;
+        font-family: Montserrat;
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 17px;
+        pointer-events: none;
+        padding: 0 32px;
+        gap: 68px;
+        text-align: center;
+      }
+
+      .inactive-text {
+        color: #6e6e6e;
+      }
+
+      #login-container {
+        animation: 1s cubic-bezier(0.42, 0, 0.28, 1);
+      }
+
+      #signup-container {
+        animation: 1s cubic-bezier(0.42, 0, 0.28, 1);
+      }
+    </style>
+    <script src="./cuenta_files/saved_resource"></script>
+    <script nonce="cUIIjYUTWMRr2TFQXHhB3qhmKyi5KkAJlWUNfW8c1Vk=">
+      const translations = () => {
+        var locale = new URL(window.location).searchParams.get("locale");
+
+        fetch(
+          `https://config.gymshark.io/translations/${
+            locale ? locale : "en-GB"
+          }/auth.json`
+        )
+          .then((data) => data.json())
+          .then((translations) => {
+            window.translationsData = translations;
+            Object.entries(translations).map(
+              ([translationKey, translationValue]) => {
+                var elements = document.querySelectorAll(
+                  `[data-translation="${translationKey}"]`
+                );
+
+                if (elements && translationValue.length > 0) {
+                  if (translationKey === 'signup.marketing.consent') {
+                    translationValue = translationValue.replace(
+                      "<1>",
+                      '<a href="https://support.gymshark.com/en-US/pages/privacy-notice-gs" class="underline font-bold text-black">'
+                    );
+                    translationValue = translationValue.replace("</1>", "</a>");
+                  }
+
+                  elements.forEach((element) => {
+                    if (
+                      translationKey.includes("placeholder") &&
+                      element.localName === "input"
+                    ) {
+                      element.setAttribute("placeholder", translationValue);
+                    } else {
+                      element.innerHTML = translationValue;
+                    }
+                  });
+                }
+              }
+            );
+          }).finally(() => {
+            const loginLength = document.getElementById("login-text")
+              .offsetWidth;
+            const registerLength = document.getElementById("signup-text")
+              .offsetWidth;
+
+            // ensure the toggles are equal width
+            if (loginLength > registerLength)
+              document.getElementById(
+                "signup-text"
+              ).style.width = `${loginLength}px`;
+            if (registerLength > loginLength)
+              document.getElementById(
+                "login-text"
+              ).style.width = `${registerLength}px`;
+
+            slider.style.width =
+              document.getElementById("login-text").offsetWidth + 72 + "px";
+
+            if (
+                new URL(window.location).searchParams.get("activeTab") ===
+                "signup"
+              ) {
+                document.documentElement.style.setProperty(
+                  "--signup-height",
+                  `${document.getElementById("signup-container").offsetHeight}px`
+                );
+
+                document.documentElement.style.setProperty(
+                  "--slider-left",
+                  document.getElementById("login-text").offsetWidth + 68 + "px"
+                  );
+              } else {
+                document.documentElement.style.setProperty(
+                  "--login-height",
+                  `${document.getElementById("login-container").offsetHeight}px`
+                );
+            }
+
+            document.getElementById("slider").style.opacity = 1;
+          });
+      };
+
+      tailwind.config = {
+        theme: {
+          fontFamily: {
+            heading: ["Montserrat"],
+            body: ["Roboto"],
+          },
+          borderWidth: {
+            DEFAULT: "1px",
+            "3": "3px",
+          },
+          extend: {
+            fontSize: {
+              "5xl": "2.8125rem",
+            },
+            colors: {
+              "black-b": "#1B1B1B",
+              "grey-a": "#444444",
+              "grey-c": "#6E6E6E",
+              "grey-f": "#EBEBEB",
+              "grey-g": "#BBBCBC",
+              error: "#BF2E35",
+              success: "#2C8349",
+            },
+          },
+        },
+      };
+
+      window.addEventListener("load", function() {
+        translations();
+
+        var currentSlide = 0;
+        var slides = document.querySelectorAll(".slide");
+        var slideIndicators = document.querySelectorAll(".slide-indicator");
+
+        var updateSlides = (newIndex) => {
+          if (newIndex !== undefined) {
+            currentSlide = newIndex;
+          }
+
+          for (var i = 0; i < slides.length; i++) {
+            slides[i].classList.add("hidden");
+            slideIndicators[i].classList.add("opacity-50");
+
+            if (currentSlide === i) {
+              slides[i].classList.remove("hidden");
+              slideIndicators[i].classList.remove("opacity-50");
+            }
+          }
+
+          if (currentSlide === slides.length - 1) {
+            return (currentSlide = 0);
+          }
+
+          return currentSlide++;
+        };
+
+        // Call function first before setting interval
+        updateSlides();
+
+        var interval = 6000;
+        var sliderTimer = setInterval(updateSlides, interval);
+
+        for (var i = 0; i < slideIndicators.length; i++) {
+          slideIndicators[i].addEventListener("click", (e) => {
+            clearInterval(sliderTimer);
+            sliderTimer = setInterval(updateSlides, interval);
+
+            updateSlides(
+              Array.from(e.target.parentNode.children).indexOf(e.target)
+            );
+          });
+        }
+      });
+    </script>
+  <style>/* ! tailwindcss v3.4.4 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]{display:none}*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }.container{width:100%}@media (min-width: 640px){.container{max-width:640px}}@media (min-width: 768px){.container{max-width:768px}}@media (min-width: 1024px){.container{max-width:1024px}}@media (min-width: 1280px){.container{max-width:1280px}}@media (min-width: 1536px){.container{max-width:1536px}}.fixed{position:fixed}.z-\[4\]{z-index:4}.my-4{margin-top:1rem;margin-bottom:1rem}.my-6{margin-top:1.5rem;margin-bottom:1.5rem}.mb-1{margin-bottom:0.25rem}.mb-5{margin-bottom:1.25rem}.mr-1{margin-right:0.25rem}.mr-2\.5{margin-right:0.625rem}.mt-1{margin-top:0.25rem}.mt-4{margin-top:1rem}.mt-6{margin-top:1.5rem}.block{display:block}.inline-block{display:inline-block}.flex{display:flex}.hidden{display:none}.h-2{height:0.5rem}.h-\[4\.375rem\]{height:4.375rem}.h-full{height:100%}.min-h-screen{min-height:100vh}.w-16{width:4rem}.w-2{width:0.5rem}.w-\[2\.875rem\]{width:2.875rem}.w-fit{width:-moz-fit-content;width:fit-content}.w-full{width:100%}.cursor-pointer{cursor:pointer}.flex-row{flex-direction:row}.flex-col{flex-direction:column}.content-center{align-content:center}.items-start{align-items:flex-start}.items-center{align-items:center}.justify-center{justify-content:center}.gap-x-2{column-gap:0.5rem}.rounded{border-radius:0.25rem}.rounded-full{border-radius:9999px}.border{border-width:1px}.border-black{--tw-border-opacity:1;border-color:rgb(0 0 0 / var(--tw-border-opacity))}.border-grey-g{--tw-border-opacity:1;border-color:rgb(187 188 188 / var(--tw-border-opacity))}.bg-black{--tw-bg-opacity:1;background-color:rgb(0 0 0 / var(--tw-bg-opacity))}.bg-error{--tw-bg-opacity:1;background-color:rgb(191 46 53 / var(--tw-bg-opacity))}.bg-grey-g{--tw-bg-opacity:1;background-color:rgb(187 188 188 / var(--tw-bg-opacity))}.bg-white{--tw-bg-opacity:1;background-color:rgb(255 255 255 / var(--tw-bg-opacity))}.bg-cover{background-size:cover}.bg-center{background-position:center}.p-3{padding:0.75rem}.p-8{padding:2rem}.px-3{padding-left:0.75rem;padding-right:0.75rem}.px-4{padding-left:1rem;padding-right:1rem}.py-16{padding-top:4rem;padding-bottom:4rem}.py-2{padding-top:0.5rem;padding-bottom:0.5rem}.pt-2{padding-top:0.5rem}.pt-4{padding-top:1rem}.text-center{text-align:center}.font-body{font-family:Roboto}.font-heading{font-family:Montserrat}.text-5xl{font-size:2.8125rem}.text-sm{font-size:0.875rem;line-height:1.25rem}.text-xl{font-size:1.25rem;line-height:1.75rem}.text-xs{font-size:0.75rem;line-height:1rem}.font-bold{font-weight:700}.uppercase{text-transform:uppercase}.text-black{--tw-text-opacity:1;color:rgb(0 0 0 / var(--tw-text-opacity))}.text-error{--tw-text-opacity:1;color:rgb(191 46 53 / var(--tw-text-opacity))}.text-grey-a{--tw-text-opacity:1;color:rgb(68 68 68 / var(--tw-text-opacity))}.text-grey-g{--tw-text-opacity:1;color:rgb(187 188 188 / var(--tw-text-opacity))}.text-success{--tw-text-opacity:1;color:rgb(44 131 73 / var(--tw-text-opacity))}.text-white{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity))}.underline{-webkit-text-decoration-line:underline;text-decoration-line:underline}.opacity-50{opacity:0.5}.transition-opacity{transition-property:opacity;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.duration-300{transition-duration:300ms}.hover\:bg-black-b:hover{--tw-bg-opacity:1;background-color:rgb(27 27 27 / var(--tw-bg-opacity))}.hover\:opacity-75:hover{opacity:0.75}@media (min-width: 768px){.md\:w-1\/2{width:50%}.md\:flex-row{flex-direction:row}.md\:flex-wrap{flex-wrap:wrap}}@media (min-width: 1024px){.lg\:block{display:block}.lg\:flex{display:flex}.lg\:hidden{display:none}.lg\:px-8{padding-left:2rem;padding-right:2rem}.lg\:py-24{padding-top:6rem;padding-bottom:6rem}}@media (min-width: 1280px){.xl\:p-16{padding:4rem}}</style></head>
+
+  <body class="bg-white font-body">
+    <div class="flex min-h-screen justify-center">
+      <div class="w-full h-[4.375rem] fixed flex flex-row justify-center content-center bg-white z-[4] lg:hidden">
+        <a class="block w-fit flex content-center" href="https://www.gymshark.com/" id="logo-nav">
+          <img src="./cuenta_files/gs-icon-black.svg" class="w-[2.875rem]" alt="Go to Gymshark homepage">
+        </a>
+      </div>
+      <div class="hidden lg:flex w-full">
+        <div class="w-full">
+          <div class="flex flex-col justify-center w-full h-full bg-cover bg-center text-white" style="background-image: url(&#39;https://cdn.develop.gymshark.com/auth-img.jpg&#39;)">
+            <div class="p-8 xl:p-16 slides">
+              <div class="slide">
+                <p class="text-grey-g text-xs" data-translation="marketing.tagline">One account, across all Apps.</p>
+
+                <h2 class="font-heading font-bold text-5xl uppercase my-4" data-translation="marketing.slide-1.title">Track your orders</h2>
+
+                <p data-translation="marketing.slide-1.text">Keep track the status of your orders</p>
+              </div>
+
+              <div class="slide hidden">
+                <p class="text-grey-g text-xs" data-translation="marketing.tagline">One account, across all Apps.</p>
+
+                <h2 class="font-heading font-bold text-5xl uppercase my-4" data-translation="marketing.slide-2.title">Shop your way</h2>
+
+                <p data-translation="marketing.slide-2.text">Discover the latest launches and be the first to get notifications for new drops</p>
+              </div>
+
+              <div class="slide hidden">
+                <p class="text-grey-g text-xs" data-translation="marketing.tagline">One account, across all Apps.</p>
+
+                <h2 class="font-heading font-bold text-5xl uppercase my-4" data-translation="marketing.slide-3.title">Save what you see</h2>
+
+                <p data-translation="marketing.slide-3.text">Save your most-loved activewear pieces to build your perfect outfit</p>
+              </div>
+
+              <div class="slide hidden">
+                <p class="text-grey-g text-xs" data-translation="marketing.tagline">One account, across all Apps.</p>
+
+                <h2 class="font-heading font-bold text-5xl uppercase my-4" data-translation="marketing.slide-4.title">Free Gymshark Train access</h2>
+
+                <p data-translation="marketing.slide-4.text">Level up your training, with The Gymshark Training App</p>
+              </div>
+
+              <div class="flex gap-x-2 pt-4">
+                <button class="slide-indicator transition-opacity duration-300 w-2 h-2 rounded-full bg-white cursor-pointer hover:opacity-75"></button>
+                <button class="slide-indicator transition-opacity duration-300 w-2 h-2 rounded-full bg-white cursor-pointer hover:opacity-75 opacity-50"></button>
+                <button class="slide-indicator transition-opacity duration-300 w-2 h-2 rounded-full bg-white cursor-pointer hover:opacity-75 opacity-50"></button>
+                <button class="slide-indicator transition-opacity duration-300 w-2 h-2 rounded-full bg-white cursor-pointer hover:opacity-75 opacity-50"></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex w-full justify-center py-16 lg:py-24 px-4 lg:px-8 container">
+        <div class="flex flex-col items-center content-container--login-default" style="width: 375px;" data-locator-id="loginRegister-container-read" id="content-container">
+          <a class="hidden lg:block" href="https://www.gymshark.com/" id="logo-nav-desktop">
+            <img src="./cuenta_files/gs-icon-black.svg" class="w-16" alt="Go to Gymshark homepage">
+          </a>
+
+          <h1 class="font-heading font-bold text-xl my-6 uppercase" data-translation="title">My Gymshark</h1>
+
+          <div id="error-message" class="hidden w-full bg-error text-white text-center p-3"></div>
+
+          <div class="toggle">
+            <input type="checkbox" id="toggle-checkbox" aria-checked="false">
+            <label id="toggle-label" data-translation="toggle.accessibility.label" data-locator-id="loginRegister-tab-select" for="toggle-checkbox">Toggle to sign up or login. Ticked is sign up, not ticked is log in.</label>
+            <div class="text-container" role="presentation">
+              <span id="login-text" data-translation="tab.login.title" style="width: 52px;">Log in</span>
+              <span id="signup-text" data-translation="tab.signup.title" class="inactive-text">Sign up</span>
+            </div>
+            <span class="slider" role="presentation" id="slider" style="width: 124px; opacity: 1;"></span>
+          </div>
+
+          <div class="w-full" id="fields-container" style="display: block;">
+            <div id="login-container" class="showing" style="display: block;">
+              <form id="login-form">
+                <div class="mb-5 w-full">
+                  <label for="login-email" class="inline-block w-full mb-1 text-grey-a font-bold text-sm" data-translation="login.email.label">Email Address</label>
+
+                  <input autocomplete="username" type="email" class="w-full border border-grey-g text-grey-a py-2 px-3 rounded" id="login-email" data-locator-id="loginRegister-loginEmailAddress-input" name="email" placeholder="Enter email address" data-translation="login.email.placeholder" required="">
+                </div>
+
+                <div class=" w-full">
+                  <label for="current-password" class="inline-block w-full mb-1 text-grey-a font-bold text-sm" data-translation="login.password.label">Password</label>
+
+                  <input autocomplete="current-password" type="password" class="w-full border border-grey-g text-grey-a py-2 px-3 rounded" id="current-password" data-locator-id="loginRegister-loginPassword-input" name="password" placeholder="Enter password" data-translation="login.password.placeholder" required="">
+                  <div class="hidden text-error text-xs mt-1"></div>
+                </div>
+
+                <div class="w-full text-center mt-6">
+                  <a href="https://www.gymshark.com/account/forgotten-password" id="login-forgotten-password" data-locator-id="loginRegister-forgottenPassword-select" class="font-bold underline text-sm" data-translation="login.button.forgotten-password.text">Forgot Password?</a>
+                </div>
+
+                <button type="submit" id="btn-login" data-locator-id="loginRegister-loginButton-select" class="w-full bg-black text-white font-heading font-bold text-sm uppercase p-3 rounded-full mt-6 hover:bg-black-b" data-translation="login.button.login.text">Log in</button>
+              </form>
+            </div>
+
+            <div id="signup-container" style="display: none; opacity: 0;">
+              <form id="signup-form" method="post" validate="">
+                <div class="mb-5 w-full">
+                  <label for="signup-firstname" class="inline-block w-full mb-1 text-grey-a font-bold text-sm" data-translation="signup.first-name.label">First name</label>
+
+                  <input autocomplete="given-name" type="text" class="w-full border border-grey-g text-grey-a py-2 px-3 rounded" id="signup-firstname" data-locator-id="loginRegister-registerFirstName-input" name="firstname" placeholder="Enter first name" data-translation="signup.first-name.placeholder" required="">
+                  <div class="firstname-validation hidden">
+                    <span class="text-error text-xs mt-1" id="for-signup-firstname" data-translation="signup.firstname.requirements.title">
+                      Please only use letters, spaces, dots and hyphens
+                    </span>
+                  </div>
+                </div>
+
+                <div class="mb-5 w-full">
+                  <label for="signup-lastname" class="inline-block w-full mb-1 text-grey-a font-bold text-sm" data-translation="signup.last-name.label">Last name</label>
+
+                  <input autocomplete="family-name" type="text" class="w-full border border-grey-g text-grey-a py-2 px-3 rounded" id="signup-lastname" data-locator-id="loginRegister-registerLastName-input" name="lastname" placeholder="Enter last name" data-translation="signup.last-name.placeholder" required="">
+                  <div class="lastname-validation hidden">
+                    <span class="text-error text-xs mt-1" id="for-signup-lastname" data-translation="signup.lastname.requirements.title">
+                      Please only use letters, spaces, dots and hyphens
+                    </span>
+                  </div>
+                </div>
+
+                <div class="mb-5 w-full">
+                  <label for="signup-email" class="inline-block w-full mb-1 text-grey-a font-bold text-sm" data-translation="signup.email.label">Email Address</label>
+
+                  <input autocomplete="username" type="email" name="email" class="w-full border border-grey-g text-grey-a py-2 px-3 rounded" id="signup-email" data-locator-id="loginRegister-registerEmailAddress-input" placeholder="Enter email address" data-translation="signup.email.placeholder" required="">
+                  <div class="hidden text-error text-xs mt-1"></div>
+                </div>
+
+                <div class="mb-5 w-full">
+                  <label for="new-password" class="inline-block w-full mb-1 text-grey-a font-bold text-sm" data-translation="signup.password.label">Password</label>
+
+                  <input autocomplete="new-password" type="password" name="password" class="w-full border border-grey-g text-grey-a py-2 px-3 rounded" id="new-password" data-locator-id="loginRegister-registerPassword-input" placeholder="Enter password" data-translation="signup.password.placeholder" required="">
+
+                  <div class="password-validation hidden">
+                    <span class="text-error text-xs mt-1" id="for-password" data-translation="signup.password.requirements.title">Your password does not match our requirements</span>
+
+                    <ul class="flex flex-col md:flex-row md:flex-wrap text-grey-a text-sm pt-2">
+                      <li class="flex md:w-1/2" id="pw_uppercase">
+                        <div class="w-2 h-2 bg-grey-g rounded-full mr-2.5 mt-1 invalid"></div>
+                        <span class="text-sm mr-1 material-symbols-outlined text-success valid hidden" data-translation="auth.signup.requirements.done">
+                          done
+                        </span>
+
+                        <span data-translation="signup.password.requirements.uppercase">1 uppercase letter</span>
+                      </li>
+
+                      <li class="flex md:w-1/2" id="pw_characters">
+                        <div class="w-2 h-2 bg-grey-g rounded-full mr-2.5 mt-1 invalid"></div>
+                        <span class="text-sm mr-1 material-symbols-outlined text-success valid hidden" data-translation="auth.signup.requirements.done">
+                          done
+                        </span>
+
+                        <span data-translation="signup.password.requirements.minimum-length">Minimum of 8 characters</span>
+                      </li>
+
+                      <li class="flex md:w-1/2" id="pw_lowercase">
+                        <div class="w-2 h-2 bg-grey-g rounded-full mr-2.5 mt-1 invalid"></div>
+                        <span class="text-sm mr-1 material-symbols-outlined text-success valid hidden" data-translation="auth.signup.requirements.done">
+                          done
+                        </span>
+
+                        <span data-translation="signup.password.requirements.lowercase">1 lowercase letter</span>
+                      </li>
+
+                      <li class="flex md:w-1/2" id="pw_special">
+                        <div class="w-2 h-2 bg-grey-g rounded-full mr-2.5 mt-1 invalid"></div>
+                        <span class="text-sm mr-1 material-symbols-outlined text-success valid hidden" data-translation="auth.signup.requirements.done">
+                          done
+                        </span>
+
+                        <span data-translation="signup.password.requirements.special">1 special character</span>
+                      </li>
+
+                      <li class="flex md:w-1/2" id="pw_number">
+                        <div class="w-2 h-2 bg-grey-g rounded-full mr-2.5 mt-1 invalid"></div>
+                        <span class="text-sm mr-1 material-symbols-outlined text-success valid hidden" data-translation="auth.signup.requirements.done">
+                          done
+                        </span>
+
+                        <span data-translation="signup.password.requirements.number">1 number</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div class="flex gap-x-2 items-start">
+                  <input type="checkbox" value="true" name="marketing[email][optin]" id="signup-email_optin" data-locator-id="loginRegister-registerEmailOptIn-select" class="mt-1 border border-black">
+
+                  <label for="signup-email_optin" class="text-grey-a text-sm" data-translation="signup.marketing.consent">Tick here to receive emails about our products, apps, sales, exclusive content and more. View our <a href="https://support.gymshark.com/en-US/pages/privacy-notice-gs" class="underline font-bold text-black">Privacy Policy</a>.</label>
+                </div>
+
+                <button type="submit" id="btn-signup" data-locator-id="loginRegister-registerButton-select" class="w-full bg-black text-white font-heading font-bold text-sm uppercase p-3 rounded-full mt-4 hover:bg-black-b" data-translation="signup.button.create-account.text">Create account</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="./cuenta_files/auth0.min.js.descarga"></script>
+    <script src="./cuenta_files/object-assign.min.js.descarga"></script>
+    <script nonce="V5DuPdz0/rhYyRoKSyt374B2w+RSQfy4RiUKjWsxJEo=">
+      window.addEventListener("load", function() {
+        const signupContainer = document.getElementById("signup-container");
+        const loginContainer = document.getElementById("login-container");
+        const loginText = document.getElementById("login-text");
+        const signupText = document.getElementById("signup-text");
+        const checkbox = document.getElementById("toggle-checkbox");
+        const fieldsContainer = document.getElementById("fields-container");
+        const slider = document.getElementById("slider");
+        let setSignUpCSSVar = false
+        let setLoginCSSVar = false
+
+        const isDefaultTabSignup =
+          new URL(window.location).searchParams.get("activeTab") === "signup"
+
+        const setDefaultStyling = (
+          activeElement,
+          disabledElement,
+          disabledText
+        ) => {
+          disabledElement.style.display = "none";
+          disabledElement.style.opacity = 0;
+          activeElement.style.display = "block";
+          disabledText.classList.add("inactive-text");
+          activeElement.classList.add("showing");
+        };
+
+        const updateHeightCssVar = (cssProperty, value) => {
+          document.documentElement.style.setProperty(
+            `--${cssProperty}-height`,
+            value
+          );
+        }
+
+        const updateSliderPositioning = (activeTab) => {
+          if (activeTab === "login") {
+            document.documentElement.style.setProperty("--slider-left", 0);
+          } else {
+            document.documentElement.style.setProperty(
+              "--slider-left",
+              document.getElementById("login-text").offsetWidth + 68 + "px"
+            );
+          }
+        };
+
+        // set styling for default open tab
+        if (isDefaultTabSignup) {
+          checkbox.checked = true;
+          document
+            .getElementById("content-container")
+            .classList.add("content-container--signup-default");
+          setDefaultStyling(signupContainer, loginContainer, loginText);
+
+          // set estimate login height to enable first toggle animation
+          updateHeightCssVar("login", "380px")
+          // the signup height has been set after translations have been completed
+          setSignUpCSSVar = true
+        } else {
+          document
+            .getElementById("content-container")
+            .classList.add("content-container--login-default");
+          setDefaultStyling(loginContainer, signupContainer, signupText);
+          updateSliderPositioning("login");
+
+          // set estimate signup height so that it doesn't yank from 0 to true value on first toggle
+          updateHeightCssVar("signup", "700px")
+          // the login height has been set after translations have been completed
+          setLoginCSSVar = true
+        }
+        fieldsContainer.style.display = "block";
+        checkbox.ariaChecked = checkbox.checked;
+
+        // change between showing signup and login fields on toggle change
+        checkbox.addEventListener("change", () => {
+          checkbox.ariaChecked = checkbox.checked;
+
+          // animate field fade out by changing opacity and switch active text around
+          if (checkbox.checked) {
+            loginContainer.style.opacity = "0";
+            updateSliderPositioning("signup");
+            document
+              .getElementById("signup-text")
+              .classList.remove("inactive-text");
+            document
+              .getElementById("login-text")
+              .classList.add("inactive-text");
+          } else {
+            signupContainer.style.opacity = "0";
+            updateSliderPositioning("login");
+            document
+              .getElementById("login-text")
+              .classList.remove("inactive-text");
+            document
+              .getElementById("signup-text")
+              .classList.add("inactive-text");
+          }
+
+          if (checkbox.checked) {
+            fieldsContainer.classList.remove("fields-container--login-active");
+          } else {
+            fieldsContainer.classList.remove("fields-container--signup-active");
+          }
+
+          // once inactive container has faded out remove inactive container and display active container
+          setTimeout(() => {
+            if (checkbox.checked) {
+              fieldsContainer.classList.add("fields-container--signup-active");
+              loginContainer.style.display = "none";
+              signupContainer.style.display = "block";
+
+              if (!setSignUpCSSVar) { 
+                updateHeightCssVar("signup", `${document.getElementById("signup-container").offsetHeight}px`)
+              }    
+            } else {
+                fieldsContainer.classList.add("fields-container--login-active");
+                signupContainer.style.display = "none";
+                loginContainer.style.display = "block";
+
+              if (!setLoginCSSVar) { 
+                updateHeightCssVar("login", `${document.getElementById("login-container").offsetHeight}px`)
+              }
+            }
+
+            // set opacity on active container to 1 to trigger fade in animation
+            setTimeout(() => {
+              if (checkbox.checked) {
+                signupContainer.style.opacity = "1";
+              } else {
+                loginContainer.style.opacity = "1";
+              }
+            }, 250);
+          }, 250);
+        });
+
+        try {
+          var config = JSON.parse(
+            decodeURIComponent(escape(window.atob("eyJpY29uIjoiaHR0cHM6Ly9jZG4uZ3ltc2hhcmsuY29tL2ltYWdlcy9icmFuZGluZy9ncy1pY29uLWJsYWNrLnBuZyIsImFzc2V0c1VybCI6IiIsImF1dGgwRG9tYWluIjoiYXV0aC5neW1zaGFyay5jb20iLCJhdXRoMFRlbmFudCI6Imd5bXNoYXJrIiwiY2xpZW50Q29uZmlndXJhdGlvbkJhc2VVcmwiOiJodHRwczovL2F1dGguZ3ltc2hhcmsuY29tLyIsImNhbGxiYWNrT25Mb2NhdGlvbkhhc2giOmZhbHNlLCJjYWxsYmFja1VSTCI6Imh0dHBzOi8vd3d3Lmd5bXNoYXJrLmNvbS9hcGkvYXV0aC9jYWxsYmFjayIsImNkbiI6Imh0dHBzOi8vY2RuLmF1dGgwLmNvbS8iLCJjbGllbnRJRCI6IjJ3YkN5SFZtMURkSVgyRXdkRTdtMHFWSWJYak9DVFhqIiwiZGljdCI6eyJzaWduaW4iOnsidGl0bGUiOiJXZWIgRWNvbSBMb2dpbiJ9fSwiZXh0cmFQYXJhbXMiOnsicHJvdG9jb2wiOiJvYXV0aDIiLCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIGVtYWlsIiwicmVzcG9uc2VfdHlwZSI6ImNvZGUiLCJhdWRpZW5jZSI6Imh0dHBzOi8vZ2F0ZXdheS5hcGkuZ3ltc2hhcmsuY29tIiwibG9jYWxlIjoiZW4tVVMiLCJyZWFsbSI6InVzIiwibm9uY2UiOiJ5WjkzWkZlWXZvYlhqTExadnQ2Y0NNY1V0LTFweWhIczVUOEJiRVdOamR3IiwiY29kZV9jaGFsbGVuZ2VfbWV0aG9kIjoiUzI1NiIsImNvZGVfY2hhbGxlbmdlIjoiRWREQVVyVURxVURVaWpvaE9keTVRVW93dXh3b01aSl9TbkVrVlVEUnNZUSIsIl9jc3JmIjoicWlJQU1HZmEteFlncVFZRDVZTGstc0l2dGI1MENTYWV1cHY4IiwiX2ludHN0YXRlIjoiZGVwcmVjYXRlZCIsInN0YXRlIjoiaEtGbzJTQlZTMDlRV2tWcE4wZGxkVXQyYm1KTlpHMUtla2h5YVVwR0xWVlZkREJqVmFGdXBXeHZaMmx1bzNScFpOa2dXWG8yZUhaTFRYUnFaSEEyVUZwS1RWUllZakZGUkhWbWRGTlpMWHB0VDJPalkybGsyU0F5ZDJKRGVVaFdiVEZFWkVsWU1rVjNaRVUzYlRCeFZrbGlXR3BQUTFSWWFnIn0sImludGVybmFsT3B0aW9ucyI6eyJwcm90b2NvbCI6Im9hdXRoMiIsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUgZW1haWwiLCJyZXNwb25zZV90eXBlIjoiY29kZSIsImF1ZGllbmNlIjoiaHR0cHM6Ly9nYXRld2F5LmFwaS5neW1zaGFyay5jb20iLCJsb2NhbGUiOiJlbi1VUyIsInJlYWxtIjoidXMiLCJub25jZSI6InlaOTNaRmVZdm9iWGpMTFp2dDZjQ01jVXQtMXB5aEhzNVQ4QmJFV05qZHciLCJjb2RlX2NoYWxsZW5nZV9tZXRob2QiOiJTMjU2IiwiY29kZV9jaGFsbGVuZ2UiOiJFZERBVXJVRHFVRFVpam9oT2R5NVFVb3d1eHdvTVpKX1NuRWtWVURSc1lRIiwiX2NzcmYiOiJxaUlBTUdmYS14WWdxUVlENVlMay1zSXZ0YjUwQ1NhZXVwdjgiLCJfaW50c3RhdGUiOiJkZXByZWNhdGVkIiwic3RhdGUiOiJoS0ZvMlNCVlMwOVFXa1ZwTjBkbGRVdDJibUpOWkcxS2VraHlhVXBHTFZWVmREQmpWYUZ1cFd4dloybHVvM1JwWk5rZ1dYbzJlSFpMVFhScVpIQTJVRnBLVFZSWVlqRkZSSFZtZEZOWkxYcHRUMk9qWTJsazJTQXlkMkpEZVVoV2JURkVaRWxZTWtWM1pFVTNiVEJ4VmtsaVdHcFBRMVJZYWcifSwid2lkZ2V0VXJsIjoiaHR0cHM6Ly9jZG4uYXV0aDAuY29tL3cyL2F1dGgwLXdpZGdldC01LjIubWluLmpzIiwiaXNUaGlyZFBhcnR5Q2xpZW50IjpmYWxzZSwiYXV0aG9yaXphdGlvblNlcnZlciI6eyJ1cmwiOiJodHRwczovL2F1dGguZ3ltc2hhcmsuY29tIiwiaXNzdWVyIjoiaHR0cHM6Ly9hdXRoLmd5bXNoYXJrLmNvbS8ifSwiY29sb3JzIjp7InByaW1hcnkiOiIjMDAwMDAwIiwicGFnZV9iYWNrZ3JvdW5kIjoiIzUzNTY1YSJ9fQ==")))
+          );
+          config.extraParams = config.extraParams || {};
+          var realmValue = config.extraParams.realm;
+          var params = Object.assign(
+            {
+              overrides: {
+                __tenant: config.auth0Tenant,
+                __token_issuer: "auth.gymshark.com",
+              },
+              domain: config.auth0Domain,
+              clientID: config.clientID,
+              redirectUri: config.callbackURL,
+              responseType: "code",
+            },
+            config.internalOptions
+          );
+
+          var webAuth = new auth0.WebAuth(params);
+
+          var databaseConnection = "Centralised-Login";
+
+          function login(e) {
+            e.preventDefault();
+            var values = new FormData(e.target);
+
+            const loginButton = document.getElementById("btn-login");
+            loginButton.setAttribute("disabled", true);
+
+            webAuth.login(
+              {
+                realm: realmValue,
+                username: values.get("email"),
+                password: values.get("password"),
+              },
+              function(err) {
+                loginButton.removeAttribute("disabled");
+                if (err) displayError(err);
+              }
+            );
+          }
+
+          function signup(e) {
+            e.preventDefault();
+            var values = new FormData(e.target);
+            const locale = new URL(window.location).searchParams.get("locale");
+
+            const signupButton = document.getElementById("btn-signup");
+            signupButton.setAttribute("disabled", true);
+
+            if (!handlePasswordCheck(values.get("password"))) {
+              return signupButton.removeAttribute("disabled");
+            }
+            if (
+              !handleNameCheck(
+                values.get("firstname"),
+                ".firstname-validation",
+                "for-signup-firstname"
+              )
+            ) {
+              return signupButton.removeAttribute("disabled");
+            }
+            if (
+              !handleNameCheck(
+                values.get("lastname"),
+                ".lastname-validation",
+                "for-signup-lastname"
+              )
+            ) {
+              return signupButton.removeAttribute("disabled");
+            }
+
+            webAuth.redirect.signupAndLogin(
+              {
+                redirectUri: config.callbackURL,
+                realm: realmValue,
+                connection: databaseConnection,
+                email: values.get("email"),
+                password: values.get("password"),
+                given_name: values.get("firstname"),
+                family_name: values.get("lastname"),
+                name: values.get("firstname") + " " + values.get("lastname"),
+                userMetadata: {
+                  locale: locale,
+                  realm: realmValue,
+                  acceptsMarketing: `${
+                    document.getElementById("signup-email_optin").checked
+                  }`,
+                  acceptsMarketingUpdatedAt: Date.now().toString(),
+                },
+              },
+              function(err, auth) {
+                signupButton.removeAttribute("disabled");
+                if (err) displayError(err);
+              }
+            );
+          }
+
+          function displayError(err) {
+            var errorText = err.description;
+
+            if (translationsData[`errors.${err.code}`]) {
+              errorText = translationsData[`errors.${err.code}`];
+            }
+
+            if (err.code === "invalid_user_password") {
+              var loginPasswordField = document.getElementById(
+                "current-password"
+              );
+              var loginPasswordError = loginPasswordField.nextElementSibling;
+              loginPasswordField.classList.add("border-b-2", "border-error");
+
+              loginPasswordError.classList.remove("hidden");
+              return (loginPasswordError.innerHTML = errorText);
+            }
+
+            if (err.code === "user_exists") {
+              var signupEmailField = document.getElementById("signup-email");
+              var signupEmailError = signupEmailField.nextElementSibling;
+              signupEmailField.classList.add("border-b-2", "border-error");
+
+              signupEmailError.classList.remove("hidden");
+              return (signupEmailError.innerHTML = errorText);
+            }
+
+            var errorMessage = document.getElementById("error-message");
+            errorMessage.innerHTML = errorText;
+            errorMessage.classList.remove("hidden");
+          }
+          
+          document
+            .getElementById("logo-nav")
+            .setAttribute("href", `${new URL(config.callbackURL).origin}`);
+          document
+          .getElementById("logo-nav-desktop")
+          .setAttribute("href", `${new URL(config.callbackURL).origin}`);
+  
+          document
+            .getElementById("login-forgotten-password")
+            .setAttribute(
+              "href",
+              `${new URL(config.callbackURL).origin}/account/forgotten-password`
+            );
+        } catch (error) {
+          console.log({ pageConfigError: error });
+        }
+
+        document.getElementById("login-form").addEventListener("submit", login);
+        document
+          .getElementById("signup-form")
+          .addEventListener("submit", signup);
+
+        document
+          .getElementById("signup-email")
+          .addEventListener("keyup", (e) => {
+            e.target.classList.remove("border-b-2", "border-error");
+            e.target.nextElementSibling.classList.add("hidden");
+          });
+
+        function nameCheck(name) {
+          return /^[A-Za-z\s\u00C0-\u024F\u1E00-\u1EFF.\-'\p{Alphabetic}]+$/gu.test(
+            name
+          );
+        }
+
+        function minimumCharactersCheck(password) {
+          return password.length >= 8;
+        }
+
+        function uppercaseCheck(password) {
+          return /.*[A-Z]+.*/.test(password);
+        }
+
+        function lowercaseCheck(password) {
+          return /.*[a-z]+.*/.test(password);
+        }
+
+        function specialCharacterCheck(password) {
+          return /.*[!@#$%^&*(),.?":{}|<>]+.*/.test(password);
+        }
+
+        function numberCheck(password) {
+          return /.*[0-9]+.*/.test(password);
+        }
+
+        function passwordValidation(password) {
+          return (
+            minimumCharactersCheck(password) &&
+            uppercaseCheck(password) &&
+            lowercaseCheck(password) &&
+            specialCharacterCheck(password) &&
+            numberCheck(password)
+          );
+        }
+
+        var toggleSuccess = (parent, check) => {
+          if (check) {
+            parent.querySelector(".valid").classList.remove("hidden");
+            return parent.querySelector(".invalid").classList.add("hidden");
+          }
+
+          parent.querySelector(".valid").classList.add("hidden");
+          parent.querySelector(".invalid").classList.remove("hidden");
+        };
+
+        let handleNameCheck = (
+          nameValue,
+          nameValidationSelector,
+          nameLabelFor
+        ) => {
+          let validationContainer = document.querySelector(
+            nameValidationSelector
+          );
+          validationContainer.classList.remove("hidden");
+
+          let errorSpan = document.getElementById(nameLabelFor);
+          errorSpan.style.display = "inline-block";
+
+          let isValidName = nameCheck(nameValue);
+
+          errorSpan.style.color = isValidName ? "#9b9b9b" : "#BF2E35";
+
+          if (isValidName) {
+            validationContainer.classList.add("hidden");
+            return true;
+          }
+          return false;
+        };
+
+        var handlePasswordCheck = (password) => {
+          var container = document.querySelector(".password-validation");
+
+          container.classList.remove("hidden");
+
+          var errorSpan = document.getElementById("for-password");
+          errorSpan.style.display = "inline-block";
+
+          var characters = document.getElementById("pw_characters");
+          var uppercase = document.getElementById("pw_uppercase");
+          var lowercase = document.getElementById("pw_lowercase");
+          var special = document.getElementById("pw_special");
+          var num = document.getElementById("pw_number");
+
+          toggleSuccess(characters, minimumCharactersCheck(password));
+          toggleSuccess(uppercase, uppercaseCheck(password));
+          toggleSuccess(lowercase, lowercaseCheck(password));
+          toggleSuccess(special, specialCharacterCheck(password));
+          toggleSuccess(num, numberCheck(password));
+
+          errorSpan.style.color = passwordValidation(password)
+            ? "#9b9b9b"
+            : "#BF2E35";
+          
+            
+          if (passwordValidation(password)) {
+            container.classList.add("hidden");
+            updateHeightCssVar("signup", `${document.getElementById("signup-container").offsetHeight}px`)
+            return true;
+          }
+          updateHeightCssVar("signup", `${document.getElementById("signup-container").offsetHeight}px`)
+          return false;
+        };
+
+        document
+          .getElementById("new-password")
+          .addEventListener("input", (e) =>
+            handlePasswordCheck(e.target.value)
+          );
+        document
+          .getElementById("signup-firstname")
+          .addEventListener("input", (e) =>
+            handleNameCheck(
+              e.target.value,
+              ".firstname-validation",
+              "for-signup-firstname"
+            )
+          );
+        document
+          .getElementById("signup-lastname")
+          .addEventListener("input", (e) =>
+            handleNameCheck(
+              e.target.value,
+              ".lastname-validation",
+              "for-signup-lastname"
+            )
+          );
+      });
+    </script>
+  
+
+</body></html>
